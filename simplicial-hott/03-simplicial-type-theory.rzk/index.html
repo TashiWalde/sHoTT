@@ -42,6 +42,8 @@
       
     
     
+      <link rel="stylesheet" href="../../assets/css/rzk-render.css">
+    
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -612,6 +614,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#connection-squares" class="md-nav__link">
+    Connection Squares
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -820,6 +829,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#connection-squares" class="md-nav__link">
+    Connection Squares
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -916,6 +932,84 @@
 </span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="err">  : I → TOPE</span>
 </span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="err">  := </span><span class="p">\ </span>t <span class="err">→ ψ t </span><span class="sx">∨</span><span class="err"> χ t</span>
 </span></code></pre></div>
+<h3 id="connection-squares">Connection Squares<a class="headerlink" href="#connection-squares" title="Permanent link">&para;</a></h3>
+<!-- This is manually adjusted diagram (hopefully fully supported in the future by rzk) -->
+<p><svg class="rzk-render" viewBox="-175 -100 350 375" width="150" height="150">
+  <path d="M -99.0358460500274 -31.444756515260025 L -89.86020976982607 109.04996702489628 L 78.85622687537837 109.04996702489628 Z" style="fill: purple; opacity: 0.2"><title>f</title></path>
+  <text x="-36.6799429814917" y="62.21839251151084" fill="purple" stroke="white" stroke-width="10" stroke-opacity=".8" paint-order="stroke"></text>
+  <path d="M -88.57160646618001 -39.70915201762215 L 98.4961027394271 -39.70915201762215 L 89.32046645922577 100.78557152253414 Z" style="fill: purple; opacity: 0.2"><title>f</title></path>
+  <text x="33.08165424415762" y="7.122422495763279" fill="purple" stroke="white" stroke-width="10" stroke-opacity=".8" paint-order="stroke"></text>
+  <polyline points="-108.73641627786154,-28.016064827507464 -100.54837539908667,97.35687983478158" stroke="purple" stroke-width="3" marker-end="url(#arrow)"><title>f</title></polyline>
+  <text x="-104.6423958384741" y="34.67040750363706" fill="purple" stroke="white" stroke-width="10" stroke-opacity=".8" paint-order="stroke">f</text>
+  <polyline points="-90.03982894447489,-47.97354751998429 90.03982894447466,-47.97354751998429" stroke="purple" stroke-width="3" marker-end="url(#arrow)"><title>f</title></polyline>
+  <text x="-1.1368683772161603e-13" y="-47.97354751998429" fill="purple" stroke="white" stroke-width="10" stroke-opacity=".8" paint-order="stroke">f</text>
+  <polyline points="-94.34447446980596,-35.57774791227483 83.54960825780415,104.91856291954896" stroke="purple" stroke-width="3" marker-end="url(#arrow)"></polyline>
+  <text x="-5.3974331060009035" y="34.670407503637065" fill="purple" stroke="white" stroke-width="10" stroke-opacity=".8" paint-order="stroke">f</text>
+  <polyline points="-79.24496273247331,114.31436252725841 79.24496273247308,114.31436252725841" stroke="purple" stroke-width="3"></polyline>
+  <polyline points="-79.24496273247331,120.31436252725841 79.24496273247308,120.31436252725841" stroke="purple" stroke-width="3"></polyline>
+  <text x="-1.1368683772161603e-13" y="117.31436252725841" fill="purple" stroke="white" stroke-width="10" stroke-opacity=".8" paint-order="stroke"></text>
+  <polyline points="105.73641627786131,-28.016064827507464  97.54837539908644,97.35687983478158" stroke="purple" stroke-width="3"></polyline>
+  <polyline points="111.73641627786131,-28.016064827507464 103.54837539908644,97.35687983478158" stroke="purple" stroke-width="3"></polyline>
+  <text x="104.64239583847387" y="34.67040750363706" fill="purple" stroke="white" stroke-width="10" stroke-opacity=".8" paint-order="stroke"></text>
+  <text x="-110.03982894447489" y="-47.97354751998429" fill="purple" stroke="white" stroke-width="10" stroke-opacity=".8" paint-order="stroke">•</text>
+  <text x="-99.24496273247331" y="117.31436252725841" fill="purple" stroke="white" stroke-width="10" stroke-opacity=".8" paint-order="stroke">•</text>
+  <text x="110.03982894447466" y="-47.97354751998429" fill="purple" stroke="white" stroke-width="10" stroke-opacity=".8" paint-order="stroke">•</text>
+  <text x="99.24496273247308" y="117.31436252725841" fill="purple" stroke="white" stroke-width="10" stroke-opacity=".8" paint-order="stroke">•</text>
+</svg></p>
+<div class="language-rzk highlight"><span class="filename">RS17 Proposition 3.5(a)</span><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kr">#define</span><span class="p"> </span><span class="nf"><a href="#define:join-square-arrow" id="define:join-square-arrow" style="visibility: visible; position: relative; color: inherit">join-square-arrow</a></span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="err">  </span><span class="p">(</span>A <span class="p">:</span><span class="err"> U)</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="err">  </span><span class="p">(</span>f <span class="p">:</span><span class="err"> </span><span class="kt">2</span><span class="err"> → A)</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="err">  : (</span><span class="kt">2</span><span class="err"> × </span><span class="kt">2</span><span class="err">) → A</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="err">  := \ (t, s) → </span><span class="s">recOR</span><span class="err"> ( t </span><span class="sx">≤</span><span class="err"> s ↦ f s , s </span><span class="sx">≤</span><span class="err"> t ↦ f t )</span>
+</span></code></pre></div>
+<!-- This is manually adjusted diagram (hopefully fully supported in the future by rzk) -->
+<p><svg class="rzk-render" viewBox="-175 -100 350 375" width="150" height="150">
+  <path d="M -99.0358460500274 -31.444756515260025 L -89.86020976982607 109.04996702489628 L 78.85622687537837 109.04996702489628 Z" style="fill: purple; opacity: 0.2"><title>f</title></path>
+  <text x="-36.6799429814917" y="62.21839251151084" fill="purple" stroke="white" stroke-width="10" stroke-opacity=".8" paint-order="stroke"></text>
+  <path d="M -88.57160646618001 -39.70915201762215 L 98.4961027394271 -39.70915201762215 L 89.32046645922577 100.78557152253414 Z" style="fill: purple; opacity: 0.2"><title>f</title></path>
+  <text x="33.08165424415762" y="7.122422495763279" fill="purple" stroke="white" stroke-width="10" stroke-opacity=".8" paint-order="stroke"></text>
+  <polyline points="-105.73641627786154,-28.016064827507464 -97.54837539908667,97.35687983478158" stroke="purple" stroke-width="3"></polyline>
+  <polyline points="-111.73641627786154,-28.016064827507464 -103.54837539908667,97.35687983478158" stroke="purple" stroke-width="3"></polyline>
+  <text x="-104.6423958384741" y="34.67040750363706" fill="purple" stroke="white" stroke-width="10" stroke-opacity=".8" paint-order="stroke"></text>
+  <polyline points="-90.03982894447489,-44.97354751998429 90.03982894447466,-44.97354751998429" stroke="purple" stroke-width="3"></polyline>
+  <polyline points="-90.03982894447489,-50.97354751998429 90.03982894447466,-50.97354751998429" stroke="purple" stroke-width="3"></polyline>
+  <text x="-1.1368683772161603e-13" y="-47.97354751998429" fill="purple" stroke="white" stroke-width="10" stroke-opacity=".8" paint-order="stroke"></text>
+  <polyline points="-94.34447446980596,-35.57774791227483 83.54960825780415,104.91856291954896" stroke="purple" stroke-width="3" marker-end="url(#arrow)"></polyline>
+  <text x="-5.3974331060009035" y="34.670407503637065" fill="purple" stroke="white" stroke-width="10" stroke-opacity=".8" paint-order="stroke">f</text>
+  <polyline points="-79.24496273247331,117.31436252725841 79.24496273247308,117.31436252725841" stroke="purple" stroke-width="3" marker-end="url(#arrow)"></polyline>
+  <text x="-1.1368683772161603e-13" y="117.31436252725841" fill="purple" stroke="white" stroke-width="10" stroke-opacity=".8" paint-order="stroke">f</text>
+  <polyline points="108.73641627786131,-28.016064827507464 100.54837539908644,97.35687983478158" stroke="purple" stroke-width="3" marker-end="url(#arrow)"></polyline>
+  <text x="104.64239583847387" y="34.67040750363706" fill="purple" stroke="white" stroke-width="10" stroke-opacity=".8" paint-order="stroke">f</text>
+  <text x="-110.03982894447489" y="-47.97354751998429" fill="purple" stroke="white" stroke-width="10" stroke-opacity=".8" paint-order="stroke">•</text>
+  <text x="-99.24496273247331" y="117.31436252725841" fill="purple" stroke="white" stroke-width="10" stroke-opacity=".8" paint-order="stroke">•</text>
+  <text x="110.03982894447466" y="-47.97354751998429" fill="purple" stroke="white" stroke-width="10" stroke-opacity=".8" paint-order="stroke">•</text>
+  <text x="99.24496273247308" y="117.31436252725841" fill="purple" stroke="white" stroke-width="10" stroke-opacity=".8" paint-order="stroke">•</text>
+</svg></p>
+<div class="language-rzk highlight"><span class="filename">RS17 Proposition 3.5(b)</span><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kr">#define</span><span class="p"> </span><span class="nf"><a href="#define:meet-square-arrow" id="define:meet-square-arrow" style="visibility: visible; position: relative; color: inherit">meet-square-arrow</a></span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="err">  </span><span class="p">(</span>A <span class="p">:</span><span class="err"> U)</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="err">  </span><span class="p">(</span>f <span class="p">:</span><span class="err"> </span><span class="kt">2</span><span class="err"> → A)</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="err">  : (</span><span class="kt">2</span><span class="err"> × </span><span class="kt">2</span><span class="err">) → A</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="err">  := \ (t, s) → </span><span class="s">recOR</span><span class="err"> ( t </span><span class="sx">≤</span><span class="err"> s ↦ f t , s </span><span class="sx">≤</span><span class="err"> t ↦ f s )</span>
+</span></code></pre></div>
+<!-- Definitions for the SVG images above -->
+<p><svg width="0" height="0">
+  <defs>
+    <style data-bx-fonts="Noto Serif">@import url(https://fonts.googleapis.com/css2?family=Noto+Serif&amp;display=swap);</style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5"
+      markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 2 L 5 5 L 0 8 z" stroke="black" fill="black" />
+    </marker>
+  </defs>
+<br />
+<style>
+    text, textPath {
+      font-family: Noto Serif;
+      font-size: 28px;
+      dominant-baseline: middle;
+      text-anchor: middle;
+    }
+  </style></p>
+<p></svg></p>
 
 
 
