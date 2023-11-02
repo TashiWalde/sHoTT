@@ -614,6 +614,12 @@ Application of a function to homotopic paths yields homotopic paths.
   ( u : B x)
   : B y
   := ind-path (A) (x) (\ y' p' → B y') (u) (y) (p)
+
+#def transport-rev
+  ( x y : A)
+  ( p : x = y)
+  : B y → B x
+  := transport y x (rev A x y p)
 ```
 
 ### The lift of a base path to a path from a term in the total space to its transport
