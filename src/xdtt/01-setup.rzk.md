@@ -221,7 +221,7 @@ We have the fiberwise universe of Resk types.
   := refl
 ```
 
-## Isoinner families
+### Isoinner families
 
 Our basic type families correspond to isofibrations.
 Over a rezk type these are just type families whose total type is itself rezk.
@@ -250,7 +250,7 @@ Over a rezk type these are just type families whose total type is itself rezk.
 One can prove that an IsoType family has Rezk fibers. Until that is done, we just assume it.
 
 ```rzk
-#assume is-rezk-family-IsoType
+#postulate is-rezk-family-IsoType
   : ( A : Rezk)
   → ( B : IsoType A)
   → ( a : type-Rezk A)
@@ -264,6 +264,82 @@ One can prove that an IsoType family has Rezk fibers. Until that is done, we jus
     \ a → (family-IsoType A B a , is-rezk-family-IsoType A B a)
 ```
 
-## The interval
+IsoType families can be composed. Again, we postulate this until it is proven in
+the ambient theory.
 
-We need a type
+```rzk
+#def family-comp-IsoType
+  ( A : Rezk)
+  ( B : IsoType A)
+  ( C : IsoType (rezk-total-IsoType A B))
+  : type-Rezk A → U
+  :=
+  \ a →
+    ( Σ ( b : family-IsoType A B a)
+      , family-IsoType (rezk-total-IsoType A B) C (a , b))
+
+#postulate is-rezk-total-comp-IsoType
+  : ( A : Rezk)
+  → ( B : IsoType A)
+  → ( C : IsoType (rezk-total-IsoType A B))
+  → is-rezk (total-type (type-Rezk A) (family-comp-IsoType A B C))
+
+#def comp-IsoType
+  ( A : Rezk)
+  ( B : IsoType A)
+  ( C : IsoType (rezk-total-IsoType A B))
+  : IsoType A
+  :=
+    (family-comp-IsoType A B C , is-rezk-total-comp-IsoType A B C)
+```
+
+## Directed type theory
+
+We have a type (in the ambient type theory) `DCtx`
+of **directed contexts** (= absolute directed types)
+For each `Γ : DCtx` we have a type `DType Γ` of **dependent types in context** `A`.
+
+In our implementation these are just wrappers around `Rezk` and `IsoType`,
+respectively.
+
+```rzk
+#def DCtx : U
+  := Rezk
+
+#def type-DCtx
+  : DCtx → U
+  := type-Rezk
+
+#def DType
+  ( Γ : DCtx)
+  : U
+  := IsoType Γ
+```
+
+Note that a term of type `A : DType Γ` is more than just a family `A : Γ₀ → DCtx`
+(where `Γ₀` denotes the underlying type of `Γ` in the ambient type theory).
+
+```rzk
+#def DCtx-family-DType
+  ( Γ : DCtx)
+  ( A : DType Γ)
+  : type-DCtx Γ → DCtx
+  := rezk-family-IsoType Γ A
+```
+
+### Sigma types
+
+We have context extensions and sigma types.
+
+```rzk
+#def DCtx-extension
+  ( Γ : DCtx)
+  : DType Γ → DCtx
+  := rezk-total-IsoType Γ
+
+#def DΣ
+  ( Γ : DCtx)
+  ( A : DType Γ)
+  : DType (DCtx-extension Γ A) → DType Γ
+  := comp-IsoType Γ A
+```
