@@ -334,3 +334,77 @@ to diagrams extending a fixed diagram `σ': ϕ → A'` (or, respectively, its im
     , \ τ' → second (is-fretract-ψ-χ A' A α) τ'
     )
 ```
+
+## Incarnation of shapes as types
+
+```rzk
+#section incarnate
+
+#def incarnate
+  ( I : CUBE)
+  ( ψ : I → TOPE)
+  : U
+  := (A : U) → (ψ → A) → A
+
+#def map-incarnate
+  ( I : CUBE)
+  ( ψ : I → TOPE)
+  ( ϕ : ψ → TOPE)
+  : incarnate I (\ t → ϕ t) → incarnate I ψ
+  := \ it A τ → it A ( \ t → τ t)
+
+#def universal-incarnate
+  ( I : CUBE)
+  ( ψ : I → TOPE)
+  : ψ → incarnate I ψ
+  := \ t A σ → σ t
+
+#def incarnate-represent
+  ( I : CUBE)
+  ( ψ : I → TOPE)
+  ( A : U)
+  : ( ψ → A) → (incarnate I ψ) → A
+  := \ σ it → it A σ
+
+#def represent-incarnate
+  ( I : CUBE)
+  ( ψ : I → TOPE)
+  ( A : U)
+  : (incarnate I ψ → A) → ψ → A
+  := \ iσ t → iσ (universal-incarnate I ψ t)
+
+#def compute-incarnate-represent
+  ( I : CUBE)
+  ( ψ : I → TOPE)
+  ( t : ψ)
+  ( A : U)
+  ( σ : ψ → A)
+  : (incarnate-represent I ψ A σ (universal-incarnate I ψ t)) = σ t
+  := refl
+
+#def retraction-incarnate-represent'
+  ( I : CUBE)
+  ( ψ : I → TOPE)
+  ( A : U)
+  ( σ : ψ → A)
+  ( t : ψ)
+  : ( ( represent-incarnate I ψ A (incarnate-represent I ψ A σ) t)
+    =_{ A}
+      ( σ t))
+  := refl
+
+#def section-incarnate-represent'
+  ( I : CUBE)
+  ( ψ : I → TOPE)
+  ( A : U)
+  ( iσ : incarnate I ψ → A)
+  ( it : incarnate I ψ)
+  : ( ( incarnate-represent I ψ A (represent-incarnate I ψ A iσ) it)
+    =_{ A}
+      ( it A (\ t → iσ (\ A σ → σ t))))
+  := refl
+
+
+
+#end incarnate
+```
