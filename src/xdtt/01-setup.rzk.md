@@ -56,7 +56,6 @@ We call it a sub-universe if additionally `V` is a predicate.
 #def universe-sub-universe
   : sub-universe → universe
   := \ (V , (_ , allows-pullbacks-V)) → (V , allows-pullbacks-V)
-
 ```
 
 
@@ -71,9 +70,7 @@ A pre-universe is representable if it admits a universal family.
   ( A : U)
   ( B : A → U)
   : U
-  :=
-    Σ (α : A' → A)
-    , B' = pullback A' A α B
+  := Σ (α : A' → A) , B' = pullback A' A α B
 
 #def is-strong-pullback-of-pullback
   ( A'' : U)
@@ -197,9 +194,9 @@ family.
 #end fiberwise-universes
 ```
 
-## The universes of groupoids and categories
+### The universes of Rezk types
 
-First we have the naive
+We have the fiberwise universe of Resk types.
 
 ```rzk
 #def Rezk
@@ -214,4 +211,59 @@ First we have the naive
   ( (A , is-rezk-A) : Rezk)
   : is-rezk A
   := is-rezk-A
+
+#def universe-Rezk
+  : universe
+  := universe-fiberwise (is-rezk)
+
+#def compute-universal-base-Rezk
+  : universal-base-fiberwise (is-rezk) = Rezk
+  := refl
 ```
+
+## Isoinner families
+
+Our basic type families correspond to isofibrations.
+Over a rezk type these are just type families whose total type is itself rezk.
+
+```rzk
+#def IsoType
+  ( (A , _) : Rezk)
+  : U
+  :=
+  Σ ( B : A → U)
+  , (is-rezk (total-type A B))
+
+#def family-IsoType
+  ( (A , is-rezk-A) : Rezk)
+  ( (B , _) : IsoType (A , is-rezk-A))
+  : A → U
+  := B
+
+#def rezk-total-IsoType
+  ( (A , is-rezk-A) : Rezk)
+  ( (B , is-rezk-Σ-B) : IsoType (A , is-rezk-A))
+  : Rezk
+  := (total-type A B , is-rezk-Σ-B)
+```
+
+One can prove that an IsoType family has Rezk fibers. Until that is done, we just assume it.
+
+```rzk
+#assume is-rezk-family-IsoType
+  : ( A : Rezk)
+  → ( B : IsoType A)
+  → ( a : type-Rezk A)
+  → is-rezk (family-IsoType A B a)
+
+#def rezk-family-IsoType
+  ( A : Rezk)
+  ( B : IsoType A)
+  : type-Rezk A → Rezk
+  :=
+    \ a → (family-IsoType A B a , is-rezk-family-IsoType A B a)
+```
+
+## The interval
+
+We need a type
