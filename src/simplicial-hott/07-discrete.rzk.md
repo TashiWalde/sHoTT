@@ -530,7 +530,7 @@ As an immediate corollary we get that every discrete type is Segal.
   :=
   \ is-discrete-A →
   ( is-segal-has-unique-inner-extensions A
-    ( is-weak-anodyne-is-anodyne-for-shape
+    ( is-weak-anodyne-is-anodyne-for-shape extext
       ( 2) (Δ¹) (\ t → t ≡ 0₂) ( 2 × 2) (Δ²) (\ t → Λ t)
       ( is-left-anodyne-Λ-Δ²)
       ( has-unique-extensions-is-local-type 2 Δ¹ (\ t → t ≡ 0₂) A

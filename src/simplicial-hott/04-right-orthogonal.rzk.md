@@ -14,7 +14,6 @@ function extensionality:
 ```rzk
 #assume extext : ExtExt
 #assume funext : FunExt
-#assume weakextext : WeakExtExt
 ```
 
 ## Right orthogonal maps with respect to shapes
@@ -947,18 +946,25 @@ Weak extension extensionality says that every contractible type has unique
 extensions for every shape inclusion `ϕ ⊂ ψ`.
 
 ```rzk
-#def has-unique-extensions-is-contr uses (weakextext)
+#def has-unique-extensions-is-contr uses (extext)
   ( C : U)
   ( is-contr-C : is-contr C)
   : has-unique-extensions I ψ ϕ C
   :=
-    weakextext I ψ ϕ
+    weakextext-extext extext I ψ ϕ
     ( \ _ → C) ( \ _ → is-contr-C)
 
-#def has-unique-extensions-Unit uses (weakextext)
+#def is-local-type-is-contr uses (extext)
+  ( C : U)
+  ( is-contr-C : is-contr C)
+  : is-local-type I ψ ϕ C
+  :=
+    is-local-type-has-unique-extensions I ψ ϕ C
+    ( has-unique-extensions-is-contr C is-contr-C)
+
+#def has-unique-extensions-Unit uses (extext)
   : has-unique-extensions I ψ ϕ Unit
   := has-unique-extensions-is-contr Unit is-contr-Unit
-
 ```
 
 Unique extension types are closed under equivalence.
@@ -990,7 +996,7 @@ Unique extension types are closed under equivalence.
 
 Next we prove the logical equivalence between `has-unique-extensions` and
 `is-right-orthogonal-terminal-map`. This follows directly from the fact that
-`Unit` has unique extensions (using `weakextext : WeakExtExt`).
+`Unit` has unique extensions (using `extext`).
 
 ```rzk
 #section is-right-orthogonal-terminal-map
@@ -1000,7 +1006,7 @@ Next we prove the logical equivalence between `has-unique-extensions` and
 #variable A : U
 
 #def has-unique-extensions-is-right-orthogonal-terminal-map
-  uses (weakextext)
+  uses (extext)
   ( is-orth-ψ-ϕ-tm-A : is-right-orthogonal-terminal-map I ψ ϕ A)
   : has-unique-extensions I ψ ϕ A
   :=
@@ -1010,7 +1016,7 @@ Next we prove the logical equivalence between `has-unique-extensions` and
     ( has-unique-extensions-Unit I ψ ϕ)
 
 #def has-unique-extensions-is-right-orthogonal-a-terminal-map
-  uses (weakextext)
+  uses (extext)
   ( tm : A → Unit)
   ( is-orth-ψ-ϕ-tm : is-right-orthogonal-to-shape I ψ ϕ A Unit tm)
   : has-unique-extensions I ψ ϕ A
@@ -1021,7 +1027,7 @@ Next we prove the logical equivalence between `has-unique-extensions` and
     ( has-unique-extensions-Unit I ψ ϕ)
 
 #def is-right-orthogonal-terminal-map-has-unique-extensions
-  uses (weakextext)
+  uses (extext)
   ( has-ue-ψ-ϕ-A : has-unique-extensions I ψ ϕ A)
   : is-right-orthogonal-terminal-map I ψ ϕ A
   :=
@@ -1030,7 +1036,7 @@ Next we prove the logical equivalence between `has-unique-extensions` and
     ( terminal-map A)
 
 #def is-right-orthogonal-terminal-map-is-local-type
-  uses (weakextext)
+  uses (extext)
   ( is-lt-ψ-ϕ-A : is-local-type I ψ ϕ A)
   : is-right-orthogonal-terminal-map I ψ ϕ A
   :=
@@ -1038,7 +1044,7 @@ Next we prove the logical equivalence between `has-unique-extensions` and
     ( has-unique-extensions-is-local-type I ψ ϕ A is-lt-ψ-ϕ-A)
 
 #def is-local-type-is-right-orthogonal-terminal-map
-  uses (weakextext)
+  uses (extext)
   ( is-orth-ψ-ϕ-tm-A : is-right-orthogonal-terminal-map I ψ ϕ A)
   : is-local-type I ψ ϕ A
   :=
@@ -1058,7 +1064,7 @@ from the unit type.
 
 ```rzk
 #def has-fiberwise-unique-extensions-is-right-orthogonal-to-shape
-  uses (extext weakextext)
+  uses (extext)
   ( I : CUBE)
   ( ψ : I → TOPE)
   ( ϕ : ψ → TOPE)
@@ -1083,7 +1089,7 @@ every fiber of every map `α : A' → A` also has unique extensions.
 
 ```rzk
 #def has-fiberwise-unique-extensions-have-unique-extensions
-  uses (extext weakextext)
+  uses (extext)
   ( I : CUBE)
   ( ψ : I → TOPE)
   ( ϕ : ψ → TOPE)
@@ -1229,7 +1235,7 @@ implication with respect to types with unique extensions.
 Every anodyne shape inclusion is weak anodyne.
 
 ```rzk
-#def is-weak-anodyne-is-anodyne-for-shape uses (weakextext)
+#def is-weak-anodyne-is-anodyne-for-shape uses (extext)
   ( I : CUBE)
   ( ψ : I → TOPE )
   ( ϕ : ψ → TOPE )
@@ -1254,7 +1260,7 @@ analog fo weak anodyne shape inclusions.
   := \ _ has-ue₀ → has-ue₀
 
 #def implication-has-unique-extension-implication-right-orthogonal
-  uses (weakextext)
+  uses (extext)
   ( I : CUBE)
   ( ψ : I → TOPE )
   ( ϕ : ψ → TOPE )
@@ -1275,8 +1281,7 @@ analog fo weak anodyne shape inclusions.
       ( is-right-orthogonal-terminal-map-has-unique-extensions I ψ ϕ A
         has-ue-ψ-ϕ))
 
-#def is-weak-anodyne-pushout-product-for-shape
-  uses (extext weakextext)
+#def is-weak-anodyne-pushout-product-for-shape uses (extext)
   ( I : CUBE)
   ( ψ : I → TOPE )
   ( ϕ : ψ → TOPE )
@@ -1296,8 +1301,7 @@ analog fo weak anodyne shape inclusions.
       is-right-orthogonal-to-shape-pushout-product A'₁ A₁ α₁ J χ ζ I ψ ϕ)
     ( A) (f A has-ue₀)
 
-#def is-weak-anodyne-pushout-product-for-shape'
-  uses (extext weakextext)
+#def is-weak-anodyne-pushout-product-for-shape' uses (extext)
   ( I : CUBE)
   ( ψ : I → TOPE )
   ( ϕ : ψ → TOPE )
