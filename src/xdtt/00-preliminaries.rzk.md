@@ -6,12 +6,25 @@ This is a literate `rzk` file:
 #lang rzk-1
 ```
 
-Some of the definitions in this file rely on function extensionality and weak
-function extensionality:
+From now on we just postulate function extensionality
 
 ```rzk
-#assume funext : FunExt
-#assume weakfunext : WeakFunExt
+#postulate funext : FunExt
+
+#def weakfunext : WeakFunExt
+  := weakfunext-funext funext
+```
+
+and extension extensionality
+
+```rzk
+#postulate extext : ExtExt
+
+#def weakextext : WeakExtExt
+  := weakextext-extext extext
+
+#def naiveextext : NaiveExtExt
+  := naiveextext-extext extext
 ```
 
 ## Universes
@@ -57,7 +70,6 @@ We call it a sub-universe if additionally `V` is a predicate.
   : sub-universe → universe
   := \ (V , (_ , allows-pullbacks-V)) → (V , allows-pullbacks-V)
 ```
-
 
 ### Representable universes
 
@@ -147,7 +159,7 @@ Every predicate on types gives rise to a sub-universe.
   : universe
   := (pre-universe-fiberwise , allows-pullbacks-fiberwise)
 
-#def is-sub-universe-fiberwise uses (funext weakfunext)
+#def is-sub-universe-fiberwise
   ( is-prop-V : (A : U) → is-prop (V A))
   : is-sub-universe ( \ A B → (a : A) → V (B a) )
   :=
@@ -223,8 +235,8 @@ We have the fiberwise universe of Resk types.
 
 ### Isoinner families
 
-Our basic type families correspond to isofibrations.
-Over a rezk type these are just type families whose total type is itself rezk.
+Our basic type families correspond to isofibrations. Over a rezk type these are
+just type families whose total type is itself rezk.
 
 ```rzk
 #def IsoType
@@ -247,7 +259,8 @@ Over a rezk type these are just type families whose total type is itself rezk.
   := (total-type A B , is-rezk-Σ-B)
 ```
 
-One can prove that an IsoType family has Rezk fibers. Until that is done, we just assume it.
+One can prove that an IsoType family has Rezk fibers. Until that is done, we
+just assume it.
 
 ```rzk
 #postulate is-rezk-family-IsoType
@@ -291,4 +304,151 @@ the ambient theory.
   : IsoType A
   :=
     (family-comp-IsoType A B C , is-rezk-total-comp-IsoType A B C)
+```
+
+## Incarnation of shapes as types
+
+For each shape `ψ`, we have a canonical type `incarnate ψ` equipped with a
+tautological diagram `ψ → incarnate ψ`.
+
+```rzk
+#def incarnate
+  ( I : CUBE)
+  ( ψ : I → TOPE)
+  : U
+  := (A : U) → (ψ → A) → A
+
+#def map-incarnate
+  ( I : CUBE)
+  ( ψ : I → TOPE)
+  ( ϕ : ψ → TOPE)
+  : incarnate I (\ t → ϕ t) → incarnate I ψ
+  := \ ev-t A τ → ev-t A ( \ t → τ t)
+
+#def universal-shape
+  ( I : CUBE)
+  ( ψ : I → TOPE)
+  ( t : ψ)
+  : incarnate I ψ
+  := \ A σ → σ t
+```
+
+This tautological diagram gives rise to a tautological comparison map.
+
+```rzk
+#def represent-incarnate
+  ( I : CUBE)
+  ( ψ : I → TOPE)
+  ( A : U)
+  : ( incarnate I ψ → A) → (ψ → A)
+  := \ iσ t → iσ (universal-shape I ψ t)
+```
+
+This map has section judgmentally.
+
+```rzk
+#def section-represent-incarnate
+  ( I : CUBE)
+  ( ψ : I → TOPE)
+  ( A : U)
+  : (ψ → A) → (incarnate I ψ → A)
+  := \ σ ev-t → ev-t A σ
+
+#def has-section-represent-incarnate
+  ( I : CUBE)
+  ( ψ : I → TOPE)
+  ( A : U)
+  : has-section (incarnate I ψ → A) (ψ → A) (represent-incarnate I ψ A)
+  :=
+    (section-represent-incarnate I ψ A , \ _ → refl)
+```
+
+We require that this map is also a retraction. This can probably be proven once
+we have directed univalence etc.
+
+```rzk
+#postulate is-also-retraction-section-represent-incarnate
+-- this is not a property but that will suffice for now
+  : ( I : CUBE)
+  → ( ψ : I → TOPE)
+  → ( A : U)
+  → ( iσ : incarnate I ψ → A)
+  → ( ( \ ev-t → ( ev-t A (\ t → iσ (\ _ σ → σ t))))
+    =_{ incarnate I ψ → A}
+      ( iσ))
+
+#def is-universal-shape
+  ( I : CUBE)
+  ( ψ : I → TOPE)
+  ( A : U)
+  : Equiv (incarnate I ψ → A) (ψ → A)
+  :=
+  ( represent-incarnate I ψ A
+  , ( ( \ σ ev-t → ev-t A σ , is-also-retraction-section-represent-incarnate I ψ A)
+    , has-section-represent-incarnate I ψ A))
+```
+
+We can also incarnate maps between shapes.
+
+```rzk
+#def incarnate-map
+  ( I : CUBE)
+  ( ψ : I → TOPE)
+  ( J : CUBE)
+  ( ϕ : J → TOPE)
+  ( f : (A : U) → (ϕ → A) → (ψ → A))
+  : incarnate I ψ → incarnate J ϕ
+  := \ ev-t A σ → ev-t A (f A σ)
+
+#def incarnate-map-2
+  ( I : CUBE)
+  ( ψ : I → TOPE)
+  ( J : CUBE)
+  ( ϕ : J → TOPE)
+  ( K : CUBE)
+  ( χ : K → TOPE)
+  ( f : (A : U) → (ϕ → A) → (χ → (ψ → A)))
+  : incarnate K χ → incarnate I ψ → incarnate J ϕ
+  := \ ev-t ev-s A σ → ev-s A (ev-t (ψ → A) (f A σ))
+```
+
+### The walking arrow
+
+We define the walking arrow `𝕀` as the incarnation of `Δ¹`.
+
+```rzk
+#def 𝕀 : U
+  := incarnate 2 Δ¹
+
+#def universal-arrow : Δ¹ → 𝕀
+  := universal-shape 2 Δ¹
+```
+
+It comes equipped with two points `0 , 1 : 𝕀` and the two maps
+`min, max : 𝕀 × 𝕀 → 𝕀`.
+
+```rzk
+#def 0_𝕀 : 𝕀
+  := universal-arrow 0₂
+
+#def 1_𝕀 : 𝕀
+  := universal-arrow 1₂
+
+#def min'
+  ( A : U)
+  ( σ : 2 → A)
+  : 2 → (2 → A)
+  := \ t s → recOR ( t ≤ s ↦ σ t , s ≤ t ↦ σ s)
+
+#def min : 𝕀 → 𝕀 → 𝕀
+  := incarnate-map-2 2 Δ¹ 2 Δ¹ 2 Δ¹ min'
+
+#def max'
+  ( A : U)
+  ( σ : 2 → A)
+  : 2 → (2 → A)
+  := \ t s → recOR ( t ≤ s ↦ σ s , s ≤ t ↦ σ t)
+
+#def max : 𝕀 → 𝕀 → 𝕀
+  := incarnate-map-2 2 Δ¹ 2 Δ¹ 2 Δ¹ max'
 ```

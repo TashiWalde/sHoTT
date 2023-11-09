@@ -8,9 +8,9 @@ This is a literate `rzk` file:
 
 ## Directed contexts and types
 
-We have a type (in the ambient type theory) `DCtx`
-of **directed contexts** (= absolute directed types)
-For each `Γ : DCtx` we have a type `DType Γ` of **dependent types in context** `A`.
+We have a type (in the ambient type theory) `DCtx` of **directed contexts** (=
+absolute directed types) For each `Γ : DCtx` we have a type `DType Γ` of
+**dependent types in context** `A`.
 
 In our implementation these are just wrappers around `Rezk` and `IsoType`,
 respectively.
@@ -29,8 +29,17 @@ respectively.
   := IsoType Γ
 ```
 
-Note that a term of type `A : DType Γ` is more than just a family `A : Γ₀ → DCtx`
-(where `Γ₀` denotes the underlying type of `Γ` in the ambient type theory).
+We have the empty context which corresponds to the unit type.
+
+```rzk
+#def DUnit : DCtx
+  (Unit , is-rezk-Unit)
+
+```
+
+Note that a term of type `A : DType Γ` is more than just a family
+`A : Γ₀ → DCtx` (where `Γ₀` denotes the underlying type of `Γ` in the ambient
+type theory).
 
 ```rzk
 #def DCtx-family-DType
