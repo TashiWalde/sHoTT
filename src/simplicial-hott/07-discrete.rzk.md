@@ -403,12 +403,12 @@ The first step is to identify the pair `{0} ⊂ Δ¹` with the pair of subshapes
   ( B : U)
   ( b : B)
   : is-equiv
-      ( ( s : Δ¹) → B [ s ≡ 0₂ ↦ b])
-      ( ( (t,s) : right-leg-of-Λ) → B [ s ≡ 0₂ ↦ b])
-      ( \ τ (t,s) → τ s)
+    ( ( s : Δ¹) → B [ s ≡ 0₂ ↦ b])
+    ( ( (t,s) : right-leg-of-Λ) → B [ s ≡ 0₂ ↦ b])
+    ( \ τ (t,s) → τ s)
   :=
-    ( ( \ υ s → υ (1₂, s) , \ _ → refl),
-      ( \ υ s → υ (1₂, s) , \ _ → refl))
+    ( ( \ υ s → υ (1₂, s) , \ _ → refl)
+    , ( \ υ s → υ (1₂, s) , \ _ → refl))
 
 #def is-right-orthogonal-to-10-1×Δ¹-is-left-fibration uses (is-left-fib-α)
   : is-right-orthogonal-to-shape
@@ -416,18 +416,16 @@ The first step is to identify the pair `{0} ⊂ Δ¹` with the pair of subshapes
   :=
     \ ( σ' : ( (t,s) : 2 × 2 | right-leg-of-Λ (t,s) ∧ s ≡ 0₂) → A') →
       is-equiv-Equiv-is-equiv'
-        ( ( s : Δ¹) → A' [s ≡ 0₂ ↦ σ' (1₂, s)])
-        ( ( s : Δ¹) → A [s ≡ 0₂ ↦ α (σ' (1₂, s))])
-        ( \ τ s → α (τ s))
-        ( ( (_, s) : right-leg-of-Λ) → A' [ s ≡ 0₂ ↦ σ' (1₂,s)])
-        ( ( (_, s) : right-leg-of-Λ) → A [ s ≡ 0₂ ↦ α ( σ' (1₂,s))])
-        ( \ υ ts → α (υ ts))
-        ( ( ( \ τ' (t,s) → τ' s , \ τ (t,s) → τ s) , \ _ → refl),
-          ( is-equiv-Δ¹-to-right-leg-of-Λ-rel-start A' ( σ' (1₂, 0₂))
-          , is-equiv-Δ¹-to-right-leg-of-Λ-rel-start A ( α ( σ' (1₂, 0₂)))
-          )
-        )
-        ( is-left-fib-α ( \ ( s : 2 | Δ¹ s ∧ s ≡ 0₂) → σ' (1₂,s)))
+      ( ( s : Δ¹) → A' [s ≡ 0₂ ↦ σ' (1₂, s)])
+      ( ( s : Δ¹) → A [s ≡ 0₂ ↦ α (σ' (1₂, s))])
+      ( \ τ s → α (τ s))
+      ( ( (_, s) : right-leg-of-Λ) → A' [ s ≡ 0₂ ↦ σ' (1₂,s)])
+      ( ( (_, s) : right-leg-of-Λ) → A [ s ≡ 0₂ ↦ α ( σ' (1₂,s))])
+      ( \ υ ts → α (υ ts))
+      ( ( ( \ τ' (t,s) → τ' s , \ τ (t,s) → τ s) , \ _ → refl),
+        ( is-equiv-Δ¹-to-right-leg-of-Λ-rel-start A' ( σ' (1₂, 0₂))
+        , is-equiv-Δ¹-to-right-leg-of-Λ-rel-start A ( α ( σ' (1₂, 0₂)))))
+      ( is-left-fib-α ( \ ( s : 2 | Δ¹ s ∧ s ≡ 0₂) → σ' (1₂,s)))
 ```
 
 Next we use that `Λ` is the pushout of its left leg and its right leg to deduce
@@ -442,9 +440,8 @@ that the pair `left-leg-of-Λ ⊂ Λ` is left orthogonal.
       ( 2 × 2) ( \ ts → Λ ts) ( \ ts → left-leg-of-Λ ts) A' A α
   :=
     is-right-orthogonal-to-shape-pushout A' A α
-      ( 2 × 2) ( \ ts → right-leg-of-Λ ts) (\ ts → left-leg-of-Λ ts)
-      ( is-right-orthogonal-to-10-1×Δ¹-is-left-fibration)
-
+    ( 2 × 2) ( \ ts → right-leg-of-Λ ts) (\ ts → left-leg-of-Λ ts)
+    ( is-right-orthogonal-to-10-1×Δ¹-is-left-fibration)
 ```
 
 Furthermore, we observe that the pair `left-leg-of-Δ ⊂ Δ¹×Δ¹` is the product of
@@ -470,9 +467,9 @@ that `Λ ⊂ Δ¹×Δ¹` is left orthogonal to `α : A' → A`.
       ( 2 × 2) ( \ ts → Δ¹×Δ¹ ts) ( \ ts → Λ ts) A' A α
   :=
     is-right-orthogonal-to-shape-left-cancel A' A α
-      ( 2 × 2) ( \ ts → Δ¹×Δ¹ ts) ( \ ts → Λ ts) ( \ ts → left-leg-of-Λ ts)
-      ( is-right-orthogonal-to-left-leg-of-Λ-Λ-is-left-fibration)
-      ( is-right-orthogonal-to-left-leg-of-Λ-Δ¹×Δ¹-is-left-fibration)
+    ( 2 × 2) ( \ ts → Δ¹×Δ¹ ts) ( \ ts → Λ ts) ( \ ts → left-leg-of-Λ ts)
+    ( is-right-orthogonal-to-left-leg-of-Λ-Λ-is-left-fibration)
+    ( is-right-orthogonal-to-left-leg-of-Λ-Δ¹×Δ¹-is-left-fibration)
 ```
 
 Finally, we right cancel the functorial retract `Δ² ⊂ Δ¹×Δ¹` to obtain the
@@ -483,9 +480,9 @@ desired left orthogonal shape inclusion `Λ ⊂ Δ²`.
   : is-inner-fibration A' A α
   :=
     is-right-orthogonal-to-shape-right-cancel-retract A' A α
-      ( 2 × 2) ( \ ts → Δ¹×Δ¹ ts) ( \ ts → Δ² ts) ( \ ts → Λ ts)
-      ( is-right-orthogonal-to-Λ-Δ¹×Δ¹-is-left-fibration)
-      ( Δ²-is-functorial-retract-Δ¹×Δ¹)
+    ( 2 × 2) ( \ ts → Δ¹×Δ¹ ts) ( \ ts → Δ² ts) ( \ ts → Λ ts)
+    ( is-right-orthogonal-to-Λ-Δ¹×Δ¹-is-left-fibration)
+    ( Δ²-is-functorial-retract-Δ¹×Δ¹)
 
 #end is-inner-fibration-is-left-fibration
 ```
@@ -497,14 +494,15 @@ anodyne.
 #def is-left-anodyne-Λ-Δ² uses (extext)
   : is-left-anodyne (2 × 2) Δ² (\ t → Λ t)
   := is-inner-fibration-is-left-fibration
-
 ```
+
+### Left fibrations and Segal types
 
 Since the Segal types are precisely the local types with respect to `Λ ⊂ Δ²`, we
 immediately deduce that in any left fibration `α : A' → A`, if `A` is a Segal
 type, then so is `A'`.
 
-```rzk title="Theorem 8.8, categorical version"
+```rzk title="RS 17, Theorem 8.8, categorical version"
 #def is-segal-domain-left-fibration-is-segal-codomain uses (extext)
   ( A' A : U)
   ( α : A' → A)
@@ -521,7 +519,7 @@ type, then so is `A'`.
 
 ### Discrete types are Segal types
 
-As an immediate corollary we get that every discrete type is Segal.
+Another immediate corollary is that every discrete type is Segal.
 
 ```rzk
 #def is-segal-is-discrete uses (extext)
@@ -533,6 +531,7 @@ As an immediate corollary we get that every discrete type is Segal.
     ( is-weak-anodyne-is-anodyne-for-shape extext
       ( 2) (Δ¹) (\ t → t ≡ 0₂) ( 2 × 2) (Δ²) (\ t → Λ t)
       ( is-left-anodyne-Λ-Δ²)
+      ( A)
       ( has-unique-extensions-is-local-type 2 Δ¹ (\ t → t ≡ 0₂) A
         ( is-left-local-is-Δ¹-local A
           ( is-Δ¹-local-is-discrete A is-discrete-A)))))
@@ -540,9 +539,9 @@ As an immediate corollary we get that every discrete type is Segal.
 
 ## Discrete types are Segal types (original proof of RS17)
 
-This chapter contains the original proof that discrete types are
+This chapter contains the original proof of RS17 that discrete types are
 automatically Segal types. We retain it since some intermediate calculations
-could still be of use.
+might still be of use.
 
 ```rzk
 #section discrete-arr-equivalences
