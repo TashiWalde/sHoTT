@@ -365,10 +365,11 @@ This map has section judgmentally.
 
 We require that this map is also a retraction. This can probably be proven once
 we have directed univalence etc.
+**WRONG!!!**
 
 ```rzk
 #postulate is-also-retraction-section-represent-incarnate
--- this is not a property but that will suffice for now
+-- this axiom is unreasonable!
   : ( I : CUBE)
   → ( ψ : I → TOPE)
   → ( A : U)
