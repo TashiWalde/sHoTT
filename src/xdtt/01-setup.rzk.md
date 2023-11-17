@@ -33,8 +33,7 @@ We have the empty context which corresponds to the unit type.
 
 ```rzk
 #def DUnit : DCtx
-  (Unit , is-rezk-Unit)
-
+  := (Unit , is-rezk-Unit)
 ```
 
 Note that a term of type `A : DType Γ` is more than just a family

@@ -363,30 +363,14 @@ This map has section judgmentally.
     (section-represent-incarnate I ψ A , \ _ → refl)
 ```
 
-We require that this map is also a retraction. This can probably be proven once
-we have directed univalence etc.
-**WRONG!!!**
+As an axiom, we require that the `universal-shape` is indeed universal.
 
 ```rzk
-#postulate is-also-retraction-section-represent-incarnate
--- this axiom is unreasonable!
-  : ( I : CUBE)
-  → ( ψ : I → TOPE)
-  → ( A : U)
-  → ( iσ : incarnate I ψ → A)
-  → ( ( \ ev-t → ( ev-t A (\ t → iσ (\ _ σ → σ t))))
-    =_{ incarnate I ψ → A}
-      ( iσ))
-
-#def is-universal-shape
+#postulate is-universal-shape
   ( I : CUBE)
   ( ψ : I → TOPE)
   ( A : U)
-  : Equiv (incarnate I ψ → A) (ψ → A)
-  :=
-  ( represent-incarnate I ψ A
-  , ( ( \ σ ev-t → ev-t A σ , is-also-retraction-section-represent-incarnate I ψ A)
-    , has-section-represent-incarnate I ψ A))
+  : is-equiv (incarnate I ψ → A) (ψ → A) (represent-incarnate I ψ A)
 ```
 
 We can also incarnate maps between shapes.
