@@ -82,7 +82,7 @@ A pre-universe is representable if it admits a universal family.
   ( A : U)
   ( B : A → U)
   : U
-  := Σ (α : A' → A) , B' = pullback A' A α B
+  := Σ (α : A' → A) , B' =_{ A' → U} pullback A' A α B
 
 #def is-strong-pullback-of-pullback
   ( A'' : U)
@@ -233,6 +233,15 @@ We have the fiberwise universe of Resk types.
   := refl
 ```
 
+`is-rezk` is a predicate. This should be proved in the ambient type theory.
+
+```rzk
+
+#postulate is-predicate-is-rezk
+  ( A : U)
+  : is-prop (is-rezk A)
+```
+
 ### Isoinner families
 
 Our basic type families correspond to isofibrations. Over a rezk type these are
@@ -244,7 +253,7 @@ just type families whose total type is itself rezk.
   : U
   :=
   Σ ( B : A → U)
-  , (is-rezk (total-type A B))
+  , ( is-rezk (total-type A B))
 
 #def family-IsoType
   ( (A , is-rezk-A) : Rezk)

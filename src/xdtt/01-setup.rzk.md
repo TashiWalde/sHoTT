@@ -33,7 +33,7 @@ We have the empty context which corresponds to the unit type.
 
 ```rzk
 #def DUnit : DCtx
-  := (Unit , is-rezk-Unit)
+  := (Unit , is-rezk-Unit extext)
 ```
 
 Note that a term of type `A : DType Γ` is more than just a family
@@ -63,4 +63,26 @@ We have context extensions and sigma types.
   ( A : DType Γ)
   : DType (DCtx-extension Γ A) → DType Γ
   := comp-IsoType Γ A
+```
+
+## Groupoids
+
+```rzk
+
+#def DGrpd
+  ( Γ : DCtx)
+  : U
+  :=
+  Σ ( A : DType Γ)
+  , ( (x : type-DCtx Γ) → is-discrete (DCtx-family-DType Γ A))
+
+#def DCtx-Grpd
+  : U
+  := Σ (A : U) , is-discrete A
+
+#def DType-Grpd
+  ( (Γ , is-discrete-Γ) : DCtx-Grpd)
+  : DCtx
+  :=
+    DType (Γ , is-rezk-is-discrete Γ is-discrete-Γ)
 ```
