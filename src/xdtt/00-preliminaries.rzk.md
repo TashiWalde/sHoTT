@@ -9,21 +9,26 @@ This is a literate `rzk` file:
 From now on we just postulate function extensionality
 
 ```rzk
-#postulate funext : FunExt
+#postulate funext
+  : FunExt
 
-#def weakfunext : WeakFunExt
+#def weakfunext
+  : WeakFunExt
   := weakfunext-funext funext
 ```
 
 and extension extensionality
 
 ```rzk
-#postulate extext : ExtExt
+#postulate extext
+  : ExtExt
 
-#def weakextext : WeakExtExt
+#def weakextext
+  : WeakExtExt
   := weakextext-extext extext
 
-#def naiveextext : NaiveExtExt
+#def naiveextext
+  : NaiveExtExt
   := naiveextext-extext extext
 ```
 
@@ -40,12 +45,12 @@ A universe is simply a class of type families which is stable under pullbacks.
   ( V : pre-universe)
   : U
   :=
-    ( (((A',A),α) : Map) → (B : A → U) → V A B → V A' (pullback A' A α B))
+    ( ( ( ( A' , A) , α) : Map) → (B : A → U) → V A B → V A' (pullback A' A α B))
 
 #def universe
   : U
   :=
-  Σ (V : pre-universe)
+  Σ ( V : pre-universe)
   , allows-pullbacks V
 ```
 
@@ -57,13 +62,13 @@ We call it a sub-universe if additionally `V` is a predicate.
   : U
   :=
   product
-    ( (A : U) → (B : A → U) → is-prop (V A B))
+    ( ( A : U) → (B : A → U) → is-prop (V A B))
     ( allows-pullbacks V)
 
 #def sub-universe
   : U
   :=
-  Σ (V : (A : U) → (A → U) → U)
+  Σ ( V : (A : U) → (A → U) → U)
   , is-sub-universe V
 
 #def universe-sub-universe
@@ -91,7 +96,7 @@ A pre-universe is representable if it admits a universal family.
   ( B' : A' → U)
   ( A : U)
   ( B : A → U)
-  ( (α , e) : is-strong-pullback-of A' B' A B)
+  ( ( α , e) : is-strong-pullback-of A' B' A B)
   : is-strong-pullback-of A'' (pullback A'' A' α' B') A B
   :=
     ( comp A'' A' A α α'
@@ -104,10 +109,10 @@ A pre-universe is representable if it admits a universal family.
   ( W : U)
   ( W* : W → U)
   : U
-  := ( (A : U) → (B : A → U) → ( iff ( V A B) ( is-strong-pullback-of A B W W*)))
+  := ((A : U) → (B : A → U) → (iff (V A B) (is-strong-pullback-of A B W W*)))
 
 #def is-universal-family-for-criterion
-  ( (V , allows-pb-V) : universe)
+  ( ( V , allows-pb-V) : universe)
   ( W : U)
   ( W* : W → U)
   ( V-W : V W W*)
@@ -119,7 +124,7 @@ A pre-universe is representable if it admits a universal family.
     , ( \ (α , e) →
         transport-rev (A → U) (\ C → V A C)
         ( B) (pullback A W α W*) (e)
-        ( allows-pb-V ((A,W), α) W* V-W)))
+        ( allows-pb-V ((A , W) , α) W* V-W)))
 ```
 
 Every representable pre-universe is a universe.
@@ -132,7 +137,7 @@ Every representable pre-universe is a universe.
   ( is-univ-V-W : is-universal-family-for V W W*)
   : allows-pullbacks V
   :=
-    \ ((A',A) , α) B V-B →
+    \ ((A' , A) , α) B V-B →
     ( second (is-univ-V-W A' (pullback A' A α B))
       ( is-strong-pullback-of-pullback A' A α B W W*
         ( first (is-univ-V-W A B) V-B)))
@@ -153,7 +158,7 @@ Every predicate on types gives rise to a sub-universe.
 
 #def allows-pullbacks-fiberwise uses (V)
   : allows-pullbacks pre-universe-fiberwise
-  := \ ((A',A),α) B V-B a' → V-B (α a')
+  := \ ((A' , A) , α) B V-B a' → V-B (α a')
 
 #def universe-fiberwise uses (V)
   : universe
@@ -161,11 +166,11 @@ Every predicate on types gives rise to a sub-universe.
 
 #def is-sub-universe-fiberwise
   ( is-prop-V : (A : U) → is-prop (V A))
-  : is-sub-universe ( \ A B → (a : A) → V (B a) )
+  : is-sub-universe (\ A B → (a : A) → V (B a))
   :=
     ( \ A B →
       is-prop-fiberwise-prop funext weakfunext
-        A (\ a → V (B a)) ( \ a → is-prop-V (B a))
+        A (\ a → V (B a)) (\ a → is-prop-V (B a))
     , allows-pullbacks-fiberwise)
 ```
 
@@ -182,7 +187,7 @@ family.
   := \ (A , _) → A
 
 #def is-admissible-universal-family-fiberwise uses (V)
-  : (pre-universe-fiberwise) universal-base-fiberwise universal-family-fiberwise
+  : ( pre-universe-fiberwise) universal-base-fiberwise universal-family-fiberwise
   := \ (_ , V-A) → V-A
 
 #def classifying-map-family-fiberwise uses (V)
@@ -201,7 +206,7 @@ family.
     universal-base-fiberwise
     universal-family-fiberwise
     is-admissible-universal-family-fiberwise
-    ( \ A B V-B → (classifying-map-family-fiberwise A B V-B, refl))
+    ( \ A B V-B → (classifying-map-family-fiberwise A B V-B , refl))
 
 #end fiberwise-universes
 ```
@@ -220,7 +225,7 @@ We have the fiberwise universe of Resk types.
   := \ (A , _) → A
 
 #def is-rezk-Rezk
-  ( (A , is-rezk-A) : Rezk)
+  ( ( A , is-rezk-A) : Rezk)
   : is-rezk A
   := is-rezk-A
 
@@ -249,21 +254,21 @@ just type families whose total type is itself rezk.
 
 ```rzk
 #def IsoType
-  ( (A , _) : Rezk)
+  ( ( A , _) : Rezk)
   : U
   :=
   Σ ( B : A → U)
   , ( is-rezk (total-type A B))
 
 #def family-IsoType
-  ( (A , is-rezk-A) : Rezk)
-  ( (B , _) : IsoType (A , is-rezk-A))
+  ( ( A , is-rezk-A) : Rezk)
+  ( ( B , _) : IsoType (A , is-rezk-A))
   : A → U
   := B
 
 #def rezk-total-IsoType
-  ( (A , is-rezk-A) : Rezk)
-  ( (B , is-rezk-Σ-B) : IsoType (A , is-rezk-A))
+  ( ( A , is-rezk-A) : Rezk)
+  ( ( B , is-rezk-Σ-B) : IsoType (A , is-rezk-A))
   : Rezk
   := (total-type A B , is-rezk-Σ-B)
 ```
@@ -312,7 +317,7 @@ the ambient theory.
   ( C : IsoType (rezk-total-IsoType A B))
   : IsoType A
   :=
-    (family-comp-IsoType A B C , is-rezk-total-comp-IsoType A B C)
+    ( family-comp-IsoType A B C , is-rezk-total-comp-IsoType A B C)
 ```
 
 ## Incarnation of shapes as types
@@ -332,7 +337,7 @@ tautological diagram `ψ → incarnate ψ`.
   ( ψ : I → TOPE)
   ( ϕ : ψ → TOPE)
   : incarnate I (\ t → ϕ t) → incarnate I ψ
-  := \ ev-t A τ → ev-t A ( \ t → τ t)
+  := \ ev-t A τ → ev-t A (\ t → τ t)
 
 #def universal-shape
   ( I : CUBE)
@@ -360,7 +365,7 @@ This map has section judgmentally.
   ( I : CUBE)
   ( ψ : I → TOPE)
   ( A : U)
-  : (ψ → A) → (incarnate I ψ → A)
+  : ( ψ → A) → (incarnate I ψ → A)
   := \ σ ev-t → ev-t A σ
 
 #def has-section-represent-incarnate
@@ -369,7 +374,7 @@ This map has section judgmentally.
   ( A : U)
   : has-section (incarnate I ψ → A) (ψ → A) (represent-incarnate I ψ A)
   :=
-    (section-represent-incarnate I ψ A , \ _ → refl)
+    ( section-represent-incarnate I ψ A , \ _ → refl)
 ```
 
 As an axiom, we require that the `universal-shape` is indeed universal.
@@ -411,10 +416,12 @@ We can also incarnate maps between shapes.
 We define the walking arrow `𝕀` as the incarnation of `Δ¹`.
 
 ```rzk
-#def 𝕀 : U
+#def 𝕀
+  : U
   := incarnate 2 Δ¹
 
-#def universal-arrow : Δ¹ → 𝕀
+#def universal-arrow
+  : Δ¹ → 𝕀
   := universal-shape 2 Δ¹
 ```
 
@@ -422,27 +429,70 @@ It comes equipped with two points `0 , 1 : 𝕀` and the two maps
 `min, max : 𝕀 × 𝕀 → 𝕀`.
 
 ```rzk
-#def 0_𝕀 : 𝕀
+#def 0_
+  : 𝕀
   := universal-arrow 0₂
 
-#def 1_𝕀 : 𝕀
+#def 1_
+  : 𝕀
   := universal-arrow 1₂
 
 #def min'
   ( A : U)
   ( σ : 2 → A)
   : 2 → (2 → A)
-  := \ t s → recOR ( t ≤ s ↦ σ t , s ≤ t ↦ σ s)
+  := \ t s → recOR (t ≤ s ↦ σ t , s ≤ t ↦ σ s)
 
-#def min : 𝕀 → 𝕀 → 𝕀
+#def min
+  : 𝕀 → 𝕀 → 𝕀
   := incarnate-map-2 2 Δ¹ 2 Δ¹ 2 Δ¹ min'
 
 #def max'
   ( A : U)
   ( σ : 2 → A)
   : 2 → (2 → A)
-  := \ t s → recOR ( t ≤ s ↦ σ s , s ≤ t ↦ σ t)
+  := \ t s → recOR (t ≤ s ↦ σ s , s ≤ t ↦ σ t)
 
-#def max : 𝕀 → 𝕀 → 𝕀
+#def max
+  : 𝕀 → 𝕀 → 𝕀
   := incarnate-map-2 2 Δ¹ 2 Δ¹ 2 Δ¹ max'
+```
+
+# Rezk Function Types
+
+```rzk
+#def Π-type
+  ( Γ : U)
+  ( A : Γ → U)
+  ( B : (total-type Γ A) → U)
+  : Γ → U
+  := \ x → (a : A x) → B (x , a)
+
+#postulate is-rezk-Π-type-are-rezk-total-types-is-discrete
+  ( Γ : U)
+  ( is-discrete-Γ : is-discrete Γ)
+  ( ( A , is-rezk-A) : IsoType (Γ , is-rezk-is-discrete extext Γ is-discrete-Γ))
+  ( ( B , is-rezk-B) : IsoType (rezk-total-IsoType
+    ( Γ , is-rezk-is-discrete extext Γ is-discrete-Γ) (A , is-rezk-A)))
+  : is-rezk (total-type Γ (Π-type Γ A B))
+```
+
+# Independent families
+
+```rzk
+
+#def type-independent-family
+  ( Γ : Rezk)
+  ( )
+  : type-Rezk A → U
+  := \ a → type-Rezk B
+
+#postulate is-rezk-independent-family
+  ( A B : Rezk)
+  : is-rezk(total-type (type-Rezk A) (type-independent-family A B))
+
+#def independent-family
+  ( A B : Rezk)
+  : IsoType A
+  := (type-independent-family A B , is-rezk-independent-family A B)
 ```
