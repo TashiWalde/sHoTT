@@ -483,16 +483,18 @@ It comes equipped with two points `0 , 1 : 𝕀` and the two maps
 
 #def type-independent-family
   ( Γ : Rezk)
-  ( )
-  : type-Rezk A → U
-  := \ a → type-Rezk B
+  ( A B : IsoType Γ)
+  : type-Rezk (rezk-total-IsoType Γ A) → U
+  := \ (x , a) → (family-IsoType Γ B) x
 
 #postulate is-rezk-independent-family
-  ( A B : Rezk)
-  : is-rezk(total-type (type-Rezk A) (type-independent-family A B))
+  ( Γ : Rezk)
+  ( A B : IsoType Γ)
+  : is-rezk(total-type (type-Rezk (rezk-total-IsoType Γ A)) (type-independent-family Γ A B))
 
 #def independent-family
-  ( A B : Rezk)
-  : IsoType A
-  := (type-independent-family A B , is-rezk-independent-family A B)
+  ( Γ : Rezk)
+  ( A B : IsoType Γ)
+  : IsoType (rezk-total-IsoType Γ A)
+  := (type-independent-family Γ A B , is-rezk-independent-family Γ A B)
 ```

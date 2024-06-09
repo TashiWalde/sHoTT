@@ -46,8 +46,7 @@ Each fiber of a dependent directed type is again a directed type.
 ```
 
 # Rules for directed contexts
-These are the existence of the empty context, which corresponds to the unit
-type, and context extension.
+These are the existence of the empty context, which corresponds to the unit type, and context extension.
 
 ```rzk
 #def DUnit
@@ -61,15 +60,21 @@ type, and context extension.
 ```
 
 ## Structural rules
-These are the variable, weakening and substitution rule, but the latter two are admissible.
+These are the variable, weakening and substitution rule, but the latter two are admissible. Hence, only the first rule is implemented.
 
 ```rzk
+#def weak-DVar
+  ( Γ : DCtx)
+  ( A : DType Γ)
+  : DType (DCtx-ext Γ A)
+  := independent-family Γ A A
+
 #def DVar
   ( Γ : DCtx)
   ( A : DType Γ)
   ( Λ : DType (DCtx-ext Γ A))
   : DType (DCtx-ext (DCtx-ext Γ A) Λ)
-  := independent-family (DCtx-ext (DCtx-ext Γ A) Λ) (DCtx-ext Γ A)
+  := independent-family (DCtx-ext Γ A) Λ (weak-DVar Γ A)
 ```
 
 ## Σ-types
@@ -81,10 +86,10 @@ These are the variable, weakening and substitution rule, but the latter two are 
   : DType (DCtx-ext Γ A) → DType Γ
   := comp-IsoType Γ A
 
-#def Dproduct
-  ( Γ : DCtx)
-  ( A B : DType Γ)
-  :
+-- #def Dproduct
+--   ( Γ : DCtx)
+--   ( A B : DType Γ)
+--   : DCtx
 ```
 
 ## Groupoids
