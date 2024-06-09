@@ -83,8 +83,14 @@ These are the variable, weakening and substitution rule, but the latter two are 
 #def DΣ
   ( Γ : DCtx)
   ( A : DType Γ)
-  : DType (DCtx-ext Γ A) → DType Γ
-  := comp-IsoType Γ A
+  ( B : DType (DCtx-ext Γ A))
+  : DType Γ
+  := comp-IsoType Γ A B
+
+-- #def DΣ-intro
+--   ( Γ : DCtx)
+--   ( A : DType Γ)
+--   ( B : DType (DCtx-ext Γ A))
 
 -- #def Dproduct
 --   ( Γ : DCtx)
