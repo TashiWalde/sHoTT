@@ -45,7 +45,7 @@ Each fiber of a dependent directed type is again a directed type.
   := rezk-family-IsoType Γ A
 ```
 
-# Rules for directed contexts
+## Rules for directed contexts
 These are the existence of the empty context, which corresponds to the unit type, and context extension.
 
 ```rzk
@@ -59,25 +59,67 @@ These are the existence of the empty context, which corresponds to the unit type
   := rezk-total-IsoType Γ
 ```
 
-## Structural rules
-These are the variable, weakening and substitution rule, but the latter two are admissible. Hence, only the first rule is implemented.
-
+## Typing terms
 ```rzk
+-- Does this name makes sense???
+#def DTerm
+  ( Γ : DCtx)
+  ( A : DType Γ)
+  : U
+  := (γ : type-DCtx Γ) → family-DType Γ A γ
+```
+
+## Structural rules
+These are the variable, substitution and weakening rule, but the latter two are admissible. Hence, only the first rule is implemented. See A.2.2 in the HoTT Book.
+
+### Variable rule
+TODO Prove that weak-DVar is (equivalent to) a special of DVar.
+```rzk
+-- Here, the key ingredient is that A is a type in the extended context.
 #def weak-DVar
   ( Γ : DCtx)
   ( A : DType Γ)
-  : DType (DCtx-ext Γ A)
-  := independent-family Γ A A
+  : DTerm (DCtx-ext Γ A) (independent-family Γ A A)
+  := \ (γ , a) → a
 
 #def DVar
   ( Γ : DCtx)
   ( A : DType Γ)
   ( Λ : DType (DCtx-ext Γ A))
-  : DType (DCtx-ext (DCtx-ext Γ A) Λ)
-  := independent-family (DCtx-ext Γ A) Λ (weak-DVar Γ A)
+  : DTerm
+    ( DCtx-ext (DCtx-ext Γ A) Λ)
+    ( independent-family (DCtx-ext Γ A) Λ (independent-family Γ A A))
+  := \ ((γ , a) , λ) → a
+```
+
+### Substitution rule
+```rzk
+#def DSub
+  ( Γ : DCtx)
+  ( A : DType Γ)
+  ( a : DTerm Γ A)
+  ( Λ : DType (DCtx-ext Γ A))
+  ( B : DType (DCtx-ext (DCtx-ext Γ A) Λ))
+  ( b : DTerm (DCtx-ext (DCtx-ext Γ A) Λ) B)
+  : DTerm (DCtx-ext Γ (comp-IsoType Γ A Λ)) ()
+  -- We need here something like associativity of composing IsoType!
+```
+
+### Weakening rule
+```rzk
+-- This does not type check yet because there is no proof that (independent-family Γ A Λ) and (independent-family Γ Λ A) are equivalent in context Γ.
+#postulate DWkn
+  ( Γ : DCtx)
+  ( A Λ : DType Γ)
+  ( B : DType (DCtx-ext Γ Λ))
+  ( b : DTerm (DCtx-ext Γ Λ) B)
+  : DTerm
+    ( DCtx-ext (DCtx-ext Γ A) (independent-family Γ A Λ))
+    ( independent-family (DCtx-ext Γ Λ) (independent-family Γ Λ A) B)
 ```
 
 ## Σ-types
+See A.2.5 in the HoTT Book.
 
 ```rzk
 #def DΣ
@@ -86,11 +128,51 @@ These are the variable, weakening and substitution rule, but the latter two are 
   ( B : DType (DCtx-ext Γ A))
   : DType Γ
   := comp-IsoType Γ A B
+```
 
--- #def DΣ-intro
---   ( Γ : DCtx)
---   ( A : DType Γ)
---   ( B : DType (DCtx-ext Γ A))
+TODO Implement substitution and weakening rule because they are used implicitly here!
+```rzk
+#def DΣ-intro
+  ( Γ : DCtx)
+  ( A : DType Γ)
+  ( B : DType (DCtx-ext Γ A))
+  ( a : (γ : type-DCtx Γ) → family-DType Γ A γ)
+  ( b : (γ : type-DCtx Γ) → family-DType (DCtx-ext Γ A) B (γ , a γ))
+  : ( γ : type-DCtx Γ) → family-DType Γ (DΣ Γ A B) γ
+  := \ γ → (a γ , b γ)
+```
+
+TODO Write wrappers for first and second.
+```rzk
+-- Check the formatting.
+#def DΣ-elim
+  ( Γ : DCtx)
+  ( A : DType Γ)
+  ( B : DType (DCtx-ext Γ A))
+  ( C : DType (DCtx-ext (DCtx-ext Γ A) B))
+  ( g :
+    ( ( ( γ , a) , b) : type-DCtx (DCtx-ext (DCtx-ext Γ A) B))
+    → ( family-DType (DCtx-ext (DCtx-ext Γ A) B) C ((γ , a) , b)))
+  ( p :
+    ( γ' : type-DCtx Γ)
+    → ( family-DType Γ (DΣ Γ A B) γ'))
+  : ( γ'' : type-DCtx Γ)
+    → ( family-DType (DCtx-ext (DCtx-ext Γ A) B) C ((γ'' , first (p γ'')) , second (p γ'')))
+  := \ γ'' → g ((γ'' , first (p γ'')) , second (p γ''))
+
+#def DΣ-comp
+  ( Γ : DCtx)
+  ( A : DType Γ)
+  ( B : DType (DCtx-ext Γ A))
+  ( C : DType (DCtx-ext (DCtx-ext Γ A) B))
+  ( g :
+    ( ( ( γ , a) , b) : type-DCtx (DCtx-ext (DCtx-ext Γ A) B))
+    → ( family-DType (DCtx-ext (DCtx-ext Γ A) B) C ((γ , a) , b)))
+  ( a : (γ : type-DCtx Γ) → family-DType Γ A γ)
+  ( b : (γ : type-DCtx Γ) → family-DType (DCtx-ext Γ A) B (γ , a γ))
+  : ( γ : type-DCtx Γ)
+  → ( DΣ-elim Γ A B C g (DΣ-intro Γ A B a b) γ) =_{family-DType (DCtx-ext (DCtx-ext Γ A) B) C ((γ , a γ) , b γ)} g ((γ , a γ) , b γ)
+  := \ γ → refl_{g ((γ , a γ) , b γ) : family-DType (DCtx-ext (DCtx-ext Γ A) B) C ((γ , a γ) , b γ)}
 
 -- #def Dproduct
 --   ( Γ : DCtx)
