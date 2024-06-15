@@ -291,9 +291,7 @@ just assume it.
     \ a → (family-IsoType A B a , is-rezk-family-IsoType A B a)
 ```
 
-IsoType families can be composed. Again, we postulate this until it is proven in
-the ambient theory.
-
+IsoType families can be composed. Again, we postulate this until it is proven in the ambient theory.
 ```rzk
 #def family-comp-IsoType
   ( A : Rezk)
